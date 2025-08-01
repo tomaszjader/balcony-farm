@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BalconyFarm - Hodowla Kur na Balkonie | Zarabiaj do 2000 zł miesięcznie</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐔</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --success: #27AE60;
+            --danger: #E74C3C;
+            --dark: #0A0A0A;
+            --dark-light: #1A1A1A;
+            --dark-medium: #2A2A2A;
+            --text-light: #FFFFFF;
+            --text-gray: #A0A0A0;
+            --text-muted: #666666;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-hover: rgba(255, 255, 255, 0.1);
+            --gradient-primary: linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%);
+            --gradient-secondary: linear-gradient(135deg, #4ECDC4 0%, #44B3A8 100%);
+            --gradient-accent: linear-gradient(135deg, #FFE66D 0%, #FFD93D 100%);
+            --gradient-dark: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            --shadow-glow: 0 0 40px rgba(255, 107, 53, 0.3);
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.4);
+            --border-radius: 20px;
+            --border-radius-large: 30px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 15px 30px;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav:hover {
+            background: var(--glass-hover);
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background: var(--glass-hover);
+            transform: scale(1.05);
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(255, 230, 109, 0.05) 0%, transparent 50%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(0.5deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-gray);
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--text-gray);
+            margin-bottom: 50px;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(255, 107, 53, 0.4);
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+        }
+
+        .cta-button-secondary:hover {
+            background: var(--glass-hover);
+            border-color: var(--primary);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 120px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--dark-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-card);
+            background: var(--glass-hover);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 24px;
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-card);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* Calculator Section */
+        .calculator {
+            background: var(--dark-light);
+        }
+
+        .calc-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-large);
+            padding: 50px;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .calc-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .calc-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 18px 20px;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .calc-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
+            transform: scale(1.02);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+        }
+
+        .calc-button {
+            width: 100%;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .calc-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .calc-result {
+            background: var(--gradient-secondary);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .calc-result.show {
+            transform: scale(1);
+        }
+
+        .calc-result h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .calc-result p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .profit-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .profit-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profit-item h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profit-item span {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background: var(--dark);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .testimonial-info h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .testimonial-info p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .star {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-gray);
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--dark-light);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--glass);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: var(--glass-hover);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px 20px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-submit {
+            width: 100%;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 15px;
+            padding: 18px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 80px 20px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: var(--text-gray);
+            text-decoration: none;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-gray);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--gradient-primary);
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section {
+                padding: 80px 20px;
+            }
+            
+            .features-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .calc-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-link">Start</a></li>
+            <li><a href="#features" class="nav-link">Korzyści</a></li>
+            <li><a href="#stats" class="nav-link">Statystyki</a></li>
+            <li><a href="#calculator" class="nav-link">Kalkulator</a></li>
+            <li><a href="#testimonials" class="nav-link">Opinie</a></li>
+            <li><a href="#contact" class="nav-link">Kontakt</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>🚀</span>
+                <span>Numer 1 w Polsce - Hodowla na Balkonie</span>
+            </div>
+            <h1>BalconyFarm</h1>
+            <p class="hero-subtitle">Przekształć swój balkon w dochodowy biznes hodowli kur. Zarabiaj do 2000 zł miesięcznie z minimalną inwestycją!</p>
+            <div class="hero-buttons">
+                <a href="#calculator" class="cta-button">
+                    <span>💎</span>
+                    <span>Oblicz Swoje Zyski</span>
+                </a>
+                <a href="#features" class="cta-button cta-button-secondary">
+                    <span>📖</span>
+                    <span>Dowiedz Się Więcej</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Dlaczego BalconyFarm?</div>
+                <h2 class="section-title fade-in">Rewolucja w Hodowli Miejskiej</h2>
+                <p class="section-description fade-in">Odkryj wszystkie korzyści hodowli kur na balkonie</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💰</div>
+                    <h3>Wysokie Zyski</h3>
+                    <p>Miesięczny dochód do 2000 zł z 6 kur na 10m² balkonu. Zwrot inwestycji już po 3 miesiącach. Koszt utrzymania jednej kury to tylko 25 zł miesięcznie!</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🏠</div>
+                    <h3>Minimalna Przestrzeń</h3>
+                    <p>Wystarczy balkon 6-10m² dla uruchomienia rentownej hodowli. Nasze systemy są zaprojektowane specjalnie dla mieszkań w mieście.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Szybki Start</h3>
+                    <p>Kompletny zestaw startowy pozwala rozpocząć hodowlę już po 7 dniach od zamówienia. Wszystko gotowe do użycia!</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Eko-Biznes</h3>
+                    <p>100% naturalne jajka i nawozy organiczne. Wspieraj zrównoważony rozwój, dbaj o środowisko i zarabiaj jednocześnie!</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📱</div>
+                    <h3>Smart Monitoring</h3>
+                    <p>Aplikacja mobilna do monitorowania zdrowia kur, produkcji jajek i automatyzacji karmienia. Technologia w służbie hodowli!</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Pełne Wsparcie</h3>
+                    <p>Kompletny kurs online, grupa wsparcia na Facebooku i cotygodniowe konsultacje z ekspertami. Nigdy nie zostaniesz sam!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="section stats">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Nasze Osiągnięcia</div>
+                <h2 class="section-title fade-in">Liczby Mówią Same</h2>
+                <p class="section-description fade-in">Zobacz, jakie rezultaty osiągają nasi klienci</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <span class="stat-icon">👥</span>
+                    <span class="stat-number" data-count="1547">0</span>
+                    <div class="stat-label">Zadowolonych Hodowców</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <span class="stat-icon">📈</span>
+                    <span class="stat-number" data-count="92">0</span>
+                    <div class="stat-label">% Skuteczności Biznesu</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <span class="stat-icon">💎</span>
+                    <span class="stat-number" data-count="1850">0</span>
+                    <div class="stat-label">Średni Miesięczny Zysk (zł)</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <span class="stat-icon">⏱️</span>
+                    <span class="stat-number" data-count="21">0</span>
+                    <div class="stat-label">Dni do Pierwszego Zysku</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="section calculator">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Sprawdź Swój Potencjał</div>
+                <h2 class="section-title fade-in">Kalkulator Zysków</h2>
+                <p class="section-description fade-in">Oblicz dokładnie, ile możesz zarobić na hodowli kur na swoim balkonie</p>
+            </div>
+            <div class="calc-container fade-in">
+                <div class="calc-grid">
+                    <div class="calc-input-group">
+                        <label for="chickens">Liczba kur:</label>
+                        <input type="number" id="chickens" class="calc-input" value="6" min="1" max="20" placeholder="Wpisz liczbę kur">
+                    </div>
+                    <div class="calc-input-group">
+                        <label for="eggPrice">Cena za jajko (zł):</label>
+                        <input type="number" id="eggPrice" class="calc-input" value="0.80" step="0.10" min="0.10" placeholder="Cena sprzedaży">
+                    </div>
+                    <div class="calc-input-group">
+                        <label for="eggsPerWeek">Jajek tygodniowo na kurę:</label>
+                        <input type="number" id="eggsPerWeek" class="calc-input" value="5" min="1" max="7" placeholder="Produktywność">
+                    </div>
+                    <div class="calc-input-group">
+                        <label for="monthlyCost">Koszt miesięczny na kurę (zł):</label>
+                        <input type="number" id="monthlyCost" class="calc-input" value="25" min="10" placeholder="Koszty utrzymania">
+                    </div>
+                </div>
+                <button class="calc-button" onclick="calculateProfit()">
+                    💎 Oblicz Moje Zyski
+                </button>
+                <div id="calcResult" class="calc-result">
+                    <h3>Twój miesięczny zysk: <span id="monthlyProfit">0</span> zł</h3>
+                    <p>Roczny zysk: <span id="yearlyProfit">0</span> zł</p>
+                    
+                    <div class="profit-breakdown">
+                        <div class="profit-item">
+                            <h4 id="monthlyRevenue">0</h4>
+                            <span>Miesięczny przychód</span>
+                        </div>
+                        <div class="profit-item">
+                            <h4 id="monthlyCosts">0</h4>
+                            <span>Miesięczne koszty</span>
+                        </div>
+                        <div class="profit-item">
+                            <h4 id="roi">0</h4>
+                            <span>ROI (%)</span>
+                        </div>
+                        <div class="profit-item">
+                            <h4 id="paybackTime">0</h4>
+                            <span>Zwrot w miesiącach</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Opinie Klientów</div>
+                <h2 class="section-title fade-in">Co Mówią Nasi Hodowcy</h2>
+                <p class="section-description fade-in">Prawdziwe historie sukcesu od naszych klientów</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">AK</div>
+                        <div class="testimonial-info">
+                            <h4>Anna Kowalska</h4>
+                            <p>Warszawa, balkon 8m²</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">"Nie wierzyłam, że można zarobić tyle na balkonie! Po 4 miesiącach zarabiam już 1600 zł miesięcznie. BalconyFarm zmienił moje życie - teraz mam dodatkowy dochód i codziennie świeże jajka!"</p>
+                </div>
+                
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">MN</div>
+                        <div class="testimonial-info">
+                            <h4>Marek Nowak</h4>
+                            <p>Kraków, balkon 10m²</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">"Jako emeryt szukałem sposobu na dodatkowy dochód. BalconyFarm okazał się strzałem w dziesiątkę! Proste w obsłudze, zyskowne i przyjemne. Polecam każdemu!"</p>
+                </div>
+                
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">JS</div>
+                        <div class="testimonial-info">
+                            <h4>Joanna Śmigielska</h4>
+                            <p>Gdańsk, balkon 12m²</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">"Zainwestowałam 2000 zł i już po 3 miesiącach odbiłam inwestycję. Teraz zarabiam 2100 zł miesięcznie! Aplikacja mobilna to strzał - wszystko pod kontrolą."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Skontaktuj Się z Nami</div>
+                <h2 class="section-title fade-in">Dołącz do BalconyFarm</h2>
+                <p class="section-description fade-in">Rozpocznij swoją przygodę z hodowlą już dziś</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info slide-in-left">
+                    <h3>Gotowy na Start?</h3>
+                    <p>Nasz zespół ekspertów pomoże Ci rozpocząć dochodowy biznes hodowli kur na balkonie. Wypełnij formularz, a skontaktujemy się z Tobą w ciągu 24 godzin!</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <strong>Telefon</strong><br>
+                                <span>+48 800 123 456</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div>
+                                <strong>Email</strong><br>
+                                <span>kontakt@balconyfarm.pl</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🕒</div>
+                            <div>
+                                <strong>Godziny pracy</strong><br>
+                                <span>Pn-Pt: 8:00-18:00</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💬</div>
+                            <div>
+                                <strong>Wsparcie 24/7</strong><br>
+                                <span>Czat online dostępny</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form slide-in-right" onsubmit="handleSubmit(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">Imię *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Nazwisko *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefon *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="balconySize">Wielkość balkonu (m²) *</label>
+                            <input type="number" id="balconySize" name="balconySize" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Budżet startowy (zł)</label>
+                            <select id="budget" name="budget">
+                                <option value="">Wybierz przedział</option>
+                                <option value="1000-2000">1000 - 2000 zł</option>
+                                <option value="2000-3000">2000 - 3000 zł</option>
+                                <option value="3000-5000">3000 - 5000 zł</option>
+                                <option value="5000+">Powyżej 5000 zł</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="message">Dodatkowe informacje</label>
+                        <textarea id="message" name="message" placeholder="Opowiedz nam o swoich planach, doświadczeniu z hodowlą lub zadaj pytania..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="form-submit">
+                        🚀 Wyślij Zapytanie i Rozpocznij Biznes
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>BalconyFarm</h4>
+                <p>Lider w Polsce w hodowli miejskiej. Pomagamy przekształcać balkony w dochodowe farmy od 2023 roku.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">📘</a>
+                    <a href="#" class="social-link">📸</a>
+                    <a href="#" class="social-link">🐦</a>
+                    <a href="#" class="social-link">▶️</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Produkty</h4>
+                <div class="footer-links">
+                    <a href="#">Zestawy Startowe</a>
+                    <a href="#">Karmniki Automatyczne</a>
+                    <a href="#">Aplikacja Mobile</a>
+                    <a href="#">Kursy Online</a>
+                    <a href="#">Konsultacje</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Wsparcie</h4>
+                <div class="footer-links">
+                    <a href="#">Centrum Pomocy</a>
+                    <a href="#">Poradniki</a>
+                    <a href="#">Grupa Facebook</a>
+                    <a href="#">Webinary</a>
+                    <a href="#">Kontakt</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Firma</h4>
+                <div class="footer-links">
+                    <a href="#">O Nas</a>
+                    <a href="#">Kariera</a>
+                    <a href="#">Regulamin</a>
+                    <a href="#">Polityka Prywatności</a>
+                    <a href="#">Blog</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 BalconyFarm Sp. z o.o. Wszystkie prawa zastrzeżone.</p>
+            <p>🐔 Zbuduj swoje imperium jajeczne już dziś! 🥚</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation active state
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            const scrollY = window.pageYOffset;
+            
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    current = sectionId;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Number counter animation
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            const updateCounter = () => {
+                start += increment;
+                if (start < target) {
+                    element.textContent = Math.floor(start);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target;
+                }
+            };
+            
+            updateCounter();
+        }
+
+        // Stats animation trigger
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('[data-count]');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-count'));
+                        animateCounter(counter, target);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('#stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Profit calculator
+        function calculateProfit() {
+            const chickens = parseInt(document.getElementById('chickens').value) || 0;
+            const eggPrice = parseFloat(document.getElementById('eggPrice').value) || 0;
+            const eggsPerWeek = parseInt(document.getElementById('eggsPerWeek').value) || 0;
+            const monthlyCostPerChicken = parseFloat(document.getElementById('monthlyCost').value) || 25;
+            
+            const monthlyEggs = chickens * eggsPerWeek * 4.33;
+            const monthlyRevenue = monthlyEggs * eggPrice;
+            const totalMonthlyCosts = chickens * monthlyCostPerChicken;
+            const monthlyProfit = monthlyRevenue - totalMonthlyCosts;
+            const yearlyProfit = monthlyProfit * 12;
+            
+            const initialInvestment = chickens * 200;
+            const paybackMonths = initialInvestment / monthlyProfit;
+            const roi = (yearlyProfit / initialInvestment) * 100;
+            
+            document.getElementById('monthlyProfit').textContent = Math.round(monthlyProfit) + ' zł';
+            document.getElementById('yearlyProfit').textContent = Math.round(yearlyProfit) + ' zł';
+            document.getElementById('monthlyRevenue').textContent = Math.round(monthlyRevenue) + ' zł';
+            document.getElementById('monthlyCosts').textContent = Math.round(totalMonthlyCosts) + ' zł';
+            document.getElementById('roi').textContent = Math.round(roi) + '%';
+            document.getElementById('paybackTime').textContent = Math.round(paybackMonths * 10) / 10;
+            
+            const resultDiv = document.getElementById('calcResult');
+            resultDiv.classList.add('show');
+        }
+
+        // Auto-calculate on input change
+        document.querySelectorAll('.calc-input').forEach(input => {
+            input.addEventListener('input', calculateProfit);
+        });
+
+        // Form validation
+        function validateForm(form) {
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#ff4444';
+                    field.style.boxShadow = '0 0 0 2px rgba(255, 68, 68, 0.2)';
+                    isValid = false;
+                    
+                    field.addEventListener('input', function() {
+                        this.style.borderColor = '';
+                        this.style.boxShadow = '';
+                    }, { once: true });
+                } else {
+                    field.style.borderColor = '';
+                    field.style.boxShadow = '';
+                }
+            });
+            
+            return isValid;
+        }
+
+        // Form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            if (!validateForm(event.target)) {
+                alert('Proszę wypełnić wszystkie wymagane pola!');
+                return;
+            }
+            
+            const button = event.target.querySelector('.form-submit');
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '⏳ Wysyłanie...';
+            button.disabled = true;
+            button.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                button.innerHTML = '✅ Wysłano Pomyślnie!';
+                button.style.background = 'var(--gradient-secondary)';
+                
+                setTimeout(() => {
+                    alert('🎉 Dziękujemy za zainteresowanie!\n\nTwoje zapytanie zostało wysłane. Nasz ekspert skontaktuje się z Tobą w ciągu 24 godzin.\n\nW międzyczasie sprawdź swoją skrzynkę email - wysłaliśmy Ci darmowy przewodnik startowy!');
+                    
+                    event.target.reset();
+                    document.getElementById('calcResult').classList.remove('show');
+                    calculateProfit();
+                    
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    button.style.opacity = '1';
+                    button.style.background = 'var(--gradient-primary)';
+                }, 2000);
+            }, 1500);
+        }
+
+        // Feature cards 3D effect
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Ripple effect for buttons
+        document.querySelectorAll('.cta-button, .calc-button, .form-submit').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255,255,255,0.6)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.style.pointerEvents = 'none';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Scroll event listeners with throttling
+        function throttle(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        window.addEventListener('scroll', throttle(() => {
+            updateActiveNavLink();
+        }, 16));
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateProfit();
+            updateActiveNavLink();
+        });
+
+        // Page loading animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        console.log('🐔 BalconyFarm - Hodowla Kur na Balkonie loaded successfully!');
+    </script>
+</body>
+</html>
