@@ -1,0 +1,50 @@
+name: Publish BalconyFarm to GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Download verified static media
+        run: |
+          curl --fail --location --retry 3 'https://d2ol7oe51mr4n9.cloudfront.net/user_3MFcklXc9tO2EDGTrsecdDL9AMo/9380216e-f14d-467e-a530-bdacfc604c17.zip' -o /tmp/balconyfarm-assets.zip
+          echo '7607bea796dffdf58e589c1d9beb65fda555aaf131923f69a127f558b443df7c  /tmp/balconyfarm-assets.zip' | sha256sum --check
+      - name: Assemble complete static site
+        run: |
+          python3 - <<'PY'
+          import pathlib, shutil, zipfile
+          root = pathlib.Path('_site')
+          root.mkdir(exist_ok=True)
+          for name in ['index.html', 'styles.css', 'main.js', '.nojekyll', 'site.webmanifest', 'robots.txt', 'sitemap.xml']:
+              shutil.copy2(name, root / name)
+          with zipfile.ZipFile('/tmp/balconyfarm-assets.zip') as bundle:
+              for entry in bundle.infolist():
+                  path = pathlib.PurePosixPath(entry.filename)
+                  if path.is_absolute() or '..' in path.parts or not path.parts:
+                      raise ValueError('Unsafe archive path')
+                  if path.parts[0] != 'assets' and not (len(path.parts) == 1 and path.suffix in ['.png', '.ico']):
+                      raise ValueError('Unexpected file')
+              bundle.extractall(root)
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - name: Deploy complete site
+        id: deployment
+        uses: actions/deploy-pages@v4
