@@ -1,4 +1,7 @@
 'use strict';
+const EN = document.documentElement.lang === 'en';
+const tr = (pl,en) => EN ? en : pl;
+const siteRoot = new URL(EN ? '../' : './', document.baseURI);
 
 // No framework, account, runtime API, or build step is required by this site.
 const $ = (selector) => document.querySelector(selector);
@@ -9,14 +12,14 @@ const journey = $('.farm-journey');
 function closeMenu() {
   menu.hidden = true;
   menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.textContent = 'Menu +';
+  menuButton.textContent = tr('Menu +', 'Menu +');
   header.classList.remove('site-header--open');
 }
 menuButton.addEventListener('click', () => {
   const open = menu.hidden;
   menu.hidden = !open;
   menuButton.setAttribute('aria-expanded', String(open));
-  menuButton.textContent = open ? 'Zamknij ×' : 'Menu +';
+  menuButton.textContent = open ? tr('Zamknij ×', 'Close ×') : tr('Menu +', 'Menu +');
   header.classList.toggle('site-header--open', open);
 });
 menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
@@ -73,7 +76,7 @@ function setupJourney() {
     abort = new AbortController();
     const request = abort;
     try {
-      const response = await fetch(new URL(src, document.baseURI), {signal:request.signal});
+      const response = await fetch(new URL(src, siteRoot), {signal:request.signal});
       if(!response.ok) throw new Error('Film unavailable');
       const blob = await response.blob();
       if(request.signal.aborted || stopped || source !== src || reduce.matches) return;
@@ -119,23 +122,23 @@ function setupJourney() {
 setupJourney();
 
 const fields = ['hens','eggs','price','feed','bedding','other'];
-const money = value => new Intl.NumberFormat('pl-PL',{maximumFractionDigits:0}).format(value);
+const money = value => new Intl.NumberFormat(EN ? 'en-GB' : 'pl-PL',{maximumFractionDigits:0}).format(value);
 function calculate() {
   const input=fields.map(id=>$('#'+id));
   const valid=input.every(el=>el.value!==''&&Number.isFinite(Number(el.value))&&Number(el.value)>=Number(el.min)&&Number(el.value)<=Number(el.max));
   const [hens,eggs,price,feed,bedding,other]=input.map(el=>Number(el.value));
   $('#hens-count').replaceChildren(document.createTextNode(String(hens)));
-  const unit=document.createElement('span');unit.textContent=' szt.';$('#hens-count').append(unit);
+  const unit=document.createElement('span');unit.textContent=tr(' szt.', ' hens');$('#hens-count').append(unit);
   $('#calculator-error').hidden=valid;
   const monthly=hens*eggs*30/7;
   const value=monthly*price;
   const costs=feed+bedding+other;
   const balance=value-costs;
   $('#balance').textContent=valid?money(balance):'…';
-  $('#monthly-eggs').textContent=valid?money(monthly)+' szt.':'…';
-  $('#egg-value').textContent=valid?money(value)+' zł':'…';
-  $('#total-costs').textContent=valid?money(costs)+' zł':'…';
-  $('#balance-explanation').textContent=!valid?'Uzupełnij założenia':balance>=0?'wartość ponad wpisane koszty':'koszty powyżej wartości jajek';
+  $('#monthly-eggs').textContent=valid?money(monthly)+tr(' szt.', ' eggs'):'…';
+  $('#egg-value').textContent=valid?money(value)+tr(' zł', ' PLN'):'…';
+  $('#total-costs').textContent=valid?money(costs)+tr(' zł', ' PLN'):'…';
+  $('#balance-explanation').textContent=!valid?tr('Uzupełnij założenia', 'Check your inputs'):balance>=0?tr('wartość ponad wpisane koszty', 'value above entered costs'):tr('koszty powyżej wartości jajek', 'costs exceed the value of the eggs');
 }
 fields.forEach(id=>$('#'+id).addEventListener('input',calculate));calculate();
 
@@ -145,15 +148,15 @@ contactForm.addEventListener('submit',e=>{
   e.preventDefault();if(!contactForm.reportValidity())return;
   const data=new FormData(contactForm);
   const name=String(data.get('name')).trim();const email=String(data.get('email')).trim();const message=String(data.get('message')).trim();
-  if(name.length<2||message.length<10){$('#message').setCustomValidity('Wpisz wiadomość zawierającą co najmniej 10 znaków.');$('#message').reportValidity();return;}
-  const text='Cześć!\n\n'+message+'\n\n'+name+'\nAdres do odpowiedzi: '+email;
+  if(name.length<2||message.length<10){$('#message').setCustomValidity(tr('Wpisz wiadomość zawierającą co najmniej 10 znaków.', 'Enter a message of at least 10 characters.'));$('#message').reportValidity();return;}
+  const text=tr('Cześć!\n\n', 'Hello!\n\n')+message+'\n\n'+name+tr('\nAdres do odpowiedzi: ', '\nReply email: ')+email;
   $('#prepared-message').value=text;
-  $('#email-link').href='mailto:tomasz.jader@gmail.com?subject='+encodeURIComponent('Zapytanie o BalconyFarm')+'&body='+encodeURIComponent(text);
+  $('#email-link').href='mailto:tomasz.jader@gmail.com?subject='+encodeURIComponent(tr('Zapytanie o BalconyFarm', 'BalconyFarm enquiry'))+'&body='+encodeURIComponent(text);
   preview.hidden=false;contactForm.hidden=true;$('#copy-status').textContent='';$('#prepared-message').focus();
 });
 $('#message').addEventListener('input',()=>$('#message').setCustomValidity(''));
 $('#copy-message').addEventListener('click',async()=>{
-  try{await navigator.clipboard.writeText($('#prepared-message').value);$('#copy-status').textContent='Treść skopiowana.';}
-  catch{$('#prepared-message').focus();$('#prepared-message').select();$('#copy-status').textContent='Zaznaczono treść. Skopiuj ją skrótem klawiaturowym.';}
+  try{await navigator.clipboard.writeText($('#prepared-message').value);$('#copy-status').textContent=tr('Treść skopiowana.', 'Text copied.');}
+  catch{$('#prepared-message').focus();$('#prepared-message').select();$('#copy-status').textContent=tr('Zaznaczono treść. Skopiuj ją skrótem klawiaturowym.', 'Text selected. Use your keyboard shortcut to copy it.');}
 });
 $('#edit-message').addEventListener('click',()=>{contactForm.hidden=false;preview.hidden=true;$('#message').focus();});

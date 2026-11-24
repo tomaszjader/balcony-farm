@@ -33,6 +33,7 @@ jobs:
           root.mkdir(exist_ok=True)
           for name in ['index.html', 'styles.css', 'main.js', '.nojekyll', 'site.webmanifest', 'robots.txt', 'sitemap.xml']:
               shutil.copy2(name, root / name)
+          shutil.copytree('en', root / 'en')
           with zipfile.ZipFile('/tmp/balconyfarm-assets.zip') as bundle:
               for entry in bundle.infolist():
                   path = pathlib.PurePosixPath(entry.filename)

@@ -298,3 +298,5 @@ html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var
 [hidden]{display:none!important} .scroll-scrub__chapter{min-height:310dvh}.farm-journey{--ss-object-position:50% 50%;--ss-mobile-position:75% 50%;--ss-ink:var(--farm-paper);--ss-muted:var(--farm-paper);--ss-accent:var(--farm-accent)}.contact-success textarea{width:100%;color:var(--farm-ink);background:var(--farm-paper);border:1px solid var(--farm-line);border-radius:5px;padding:12px;margin:10px 0 20px;resize:vertical}.contact-success label{display:block;font-size:13px}.contact-success>.contact-submit{display:flex;margin-top:15px}.contact-success button{margin-top:12px}.contact-success p[role=status]{font-size:13px}.farm-journey .scroll-scrub__poster{height:100%;width:100%}html{overflow-x:clip}
 
 .site-header:not(.site-header--solid):not(.site-header--open){background:rgba(12,34,22,.3);backdrop-filter:blur(7px)}
+
+.language-switch{font-size:13px;padding:10px 8px;border-bottom:1px solid currentColor;white-space:nowrap}.desktop-nav{margin-left:auto}.site-header{gap:24px}@media(max-width:860px){.language-switch{margin-left:auto}.site-header{gap:18px}.menu-toggle{padding-left:0}}
