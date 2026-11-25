@@ -20,3 +20,6 @@
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    # Project-only experiment: block inline scripts (including Netlify badge).
+    # The site uses an external main.js; media/style policies remain unchanged.
+    Content-Security-Policy = "script-src 'self'"
