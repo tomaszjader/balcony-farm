@@ -19,3 +19,23 @@ All content is present in HTML. Reduced-motion mode shows the same story without
 ## Local preview
 
 Run a static web server from this directory, for example `python3 -m http.server 8000`, with the media archive unpacked alongside the source files. No framework build is required.
+
+## Netlify (Polish + English)
+
+Import this repository into Netlify and select the `main` branch. The committed `netlify.toml` supplies the settings automatically:
+
+- Build command: `python3 scripts/build-site.py`
+- Publish directory: `_site`
+- Polish homepage: `/`
+- English homepage: `/en/`
+- Pretty URLs handles the English directory route; `/pl` and `/pl/` are aliases redirecting to the Polish homepage.
+
+The shared build script downloads and verifies the pinned media bundle, then includes the film, photos, icons and fonts in the deployed site. No npm dependencies, API keys or server functions are needed. Missing or corrupted media causes the build to fail rather than publishing an incomplete page.
+
+Canonical URLs, alternate-language URLs, Open Graph URLs, sitemap and robots metadata use Netlify's production `URL` or preview `DEPLOY_PRIME_URL`. Optionally set `SITE_URL` to override the site address, for example when using a custom domain. GitHub Pages keeps its existing canonical address.
+
+Direct visits and refreshes work because `en/index.html` is a real static document. There is deliberately no `/* /index.html 200` SPA fallback that could serve Polish content for English or missing URLs.
+
+For a manual Netlify upload, first run the build locally and upload the contents of `_site`, not the raw repository. You can reuse a downloaded media archive with `python3 scripts/build-site.py --assets-archive /path/to/balconyfarm-pages-assets-v2.zip`; its checksum is still verified.
+
+The contact form continues to prepare an email for the visitor to send; enabling Netlify hosting does not submit or store messages through Netlify Forms.

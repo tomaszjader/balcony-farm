@@ -1,0 +1,22 @@
+# Automatically detected when this repository is imported into Netlify.
+[build]
+  command = "python3 scripts/build-site.py"
+  publish = "_site"
+
+[build.processing.html]
+  pretty_urls = true
+
+# Real index.html documents plus Pretty URLs handle / and /en/ directly.
+# Netlify normalizes trailing slashes; do not force /en -> /en/ redirects.
+# This single alias matches both /pl and /pl/.
+[[redirects]]
+  from = "/pl"
+  to = "/"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
