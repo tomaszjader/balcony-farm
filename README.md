@@ -39,3 +39,7 @@ Direct visits and refreshes work because `en/index.html` is a real static docume
 For a manual Netlify upload, first run the build locally and upload the contents of `_site`, not the raw repository. You can reuse a downloaded media archive with `python3 scripts/build-site.py --assets-archive /path/to/balconyfarm-pages-assets-v2.zip`; its checksum is still verified.
 
 The contact form continues to prepare an email for the visitor to send; enabling Netlify hosting does not submit or store messages through Netlify Forms.
+
+## Russian version
+
+Russian content is available at `/ru/`, with PL / EN / RU navigation on every page. The shared build includes all three language directories for both hosting platforms. Calculator amounts remain in PLN; Russian number formatting and quantity labels are localized.

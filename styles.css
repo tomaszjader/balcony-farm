@@ -303,3 +303,5 @@ html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var
 
 /* Temporary, project-scoped hide for Netlify's injected badge container. */
 #nl-badge-frame { display: none !important; }
+
+.language-nav{display:flex;gap:10px;align-items:center}.language-nav .language-switch{margin-left:0}.language-switch[aria-current=page]{font-weight:600;border-bottom-width:2px}@media(max-width:860px){.language-nav{margin-left:auto;gap:6px}.language-nav .language-switch{padding:9px 3px}.site-header{gap:12px}}html[lang=ru] .scroll-scrub__title{font-size:clamp(3rem,6.2vw,6.5rem)}@media(max-width:580px){html[lang=ru] .scroll-scrub__title{font-size:8.6vw}html[lang=ru] .brand{font-size:20px}}

@@ -1,7 +1,11 @@
 'use strict';
-const EN = document.documentElement.lang === 'en';
-const tr = (pl,en) => EN ? en : pl;
-const siteRoot = new URL(EN ? '../' : './', document.baseURI);
+const LANG = document.documentElement.lang;
+const EN = LANG === 'en';
+const RU = LANG === 'ru';
+const russian = {"Menu +":"Меню +","Close ×":"Закрыть ×"," hens":" кур"," eggs":" яиц"," PLN":" PLN","Check your inputs":"Проверьте данные","value above entered costs":"стоимость яиц превышает расходы","costs exceed the value of the eggs":"расходы превышают стоимость яиц","Enter a message of at least 10 characters.":"Введите сообщение длиной не менее 10 символов.","Hello!\n\n":"Здравствуйте!\n\n","\nReply email: ":"\nАдрес для ответа: ","BalconyFarm enquiry":"Вопрос о BalconyFarm","Text copied.":"Текст скопирован.","Text selected. Use your keyboard shortcut to copy it.":"Текст выделен. Скопируйте его сочетанием клавиш."};
+const tr = (pl,en) => RU ? (russian[en] ?? en) : EN ? en : pl;
+const ruPlural = (n, forms) => forms[n % 100 >= 11 && n % 100 <= 14 ? 2 : n % 10 === 1 ? 0 : n % 10 >= 2 && n % 10 <= 4 ? 1 : 2];
+const siteRoot = new URL(LANG === 'pl' ? './' : '../', document.baseURI);
 
 // No framework, account, runtime API, or build step is required by this site.
 const $ = (selector) => document.querySelector(selector);
@@ -122,20 +126,20 @@ function setupJourney() {
 setupJourney();
 
 const fields = ['hens','eggs','price','feed','bedding','other'];
-const money = value => new Intl.NumberFormat(EN ? 'en-GB' : 'pl-PL',{maximumFractionDigits:0}).format(value);
+const money = value => new Intl.NumberFormat(RU ? 'ru-RU' : EN ? 'en-GB' : 'pl-PL',{maximumFractionDigits:0}).format(value);
 function calculate() {
   const input=fields.map(id=>$('#'+id));
   const valid=input.every(el=>el.value!==''&&Number.isFinite(Number(el.value))&&Number(el.value)>=Number(el.min)&&Number(el.value)<=Number(el.max));
   const [hens,eggs,price,feed,bedding,other]=input.map(el=>Number(el.value));
   $('#hens-count').replaceChildren(document.createTextNode(String(hens)));
-  const unit=document.createElement('span');unit.textContent=tr(' szt.', ' hens');$('#hens-count').append(unit);
+  const unit=document.createElement('span');unit.textContent=RU ? ' '+ruPlural(hens,['курица','курицы','кур']) : tr(' szt.', ' hens');$('#hens-count').append(unit);
   $('#calculator-error').hidden=valid;
   const monthly=hens*eggs*30/7;
   const value=monthly*price;
   const costs=feed+bedding+other;
   const balance=value-costs;
   $('#balance').textContent=valid?money(balance):'…';
-  $('#monthly-eggs').textContent=valid?money(monthly)+tr(' szt.', ' eggs'):'…';
+  $('#monthly-eggs').textContent=valid?money(monthly)+(RU ? ' '+ruPlural(Math.round(monthly),['яйцо','яйца','яиц']) : tr(' szt.', ' eggs')):'…';
   $('#egg-value').textContent=valid?money(value)+tr(' zł', ' PLN'):'…';
   $('#total-costs').textContent=valid?money(costs)+tr(' zł', ' PLN'):'…';
   $('#balance-explanation').textContent=!valid?tr('Uzupełnij założenia', 'Check your inputs'):balance>=0?tr('wartość ponad wpisane koszty', 'value above entered costs'):tr('koszty powyżej wartości jajek', 'costs exceed the value of the eggs');

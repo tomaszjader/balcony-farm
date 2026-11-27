@@ -65,22 +65,23 @@ def build(archive=None):
         stage.mkdir()
         for name in ("index.html", "styles.css", "main.js", ".nojekyll", "site.webmanifest", "robots.txt", "sitemap.xml"):
             shutil.copy2(ROOT / name, stage / name)
-        shutil.copytree(ROOT / "en", stage / "en")
+        for language in ("en", "ru"):
+            shutil.copytree(ROOT / language, stage / language)
         with zipfile.ZipFile(media) as bundle:
             bundle.extractall(stage)
-        for name in ("index.html", "en/index.html", "sitemap.xml"):
+        for name in ("index.html", "en/index.html", "ru/index.html", "sitemap.xml"):
             path = stage / name
             path.write_text(path.read_text(encoding="utf-8").replace(SOURCE_URL, html.escape(origin, quote=True)), encoding="utf-8")
         path = stage / "robots.txt"
         path.write_text(path.read_text(encoding="utf-8").replace(SOURCE_URL, origin), encoding="utf-8")
-        for name in ("index.html", "en/index.html", "assets/world/scene-01.mp4", "assets/world/scene-01-mobile.mp4"):
+        for name in ("index.html", "en/index.html", "ru/index.html", "assets/world/scene-01.mp4", "assets/world/scene-01-mobile.mp4"):
             if not (stage / name).is_file():
                 raise ValueError("Missing deployment file: " + name)
         output = ROOT / "_site"
         if output.exists():
             shutil.rmtree(output)
         shutil.copytree(stage, output)
-    print("Static site ready in _site (Polish: /, English: /en/).")
+    print("Static site ready in _site (Polish: /, English: /en/, Russian: /ru/).")
     print("Canonical site URL: " + origin)
 
 if __name__ == "__main__":
